@@ -23,7 +23,8 @@
 
 #include <deque>
 #include <set>
-#include <map>
+//#include <map>
+#include <unordered_map>
 #include <type_traits>
 #include <cmath>
 #include <algorithm>
@@ -171,7 +172,8 @@ private:
 			thisClassInfo.baseList.begin(),
 			thisClassInfo.baseList.end(),
 			[baseMetaType](const BaseDerived & item) {
-				return item.targetMetaType->equal(baseMetaType);
+				//return item.targetMetaType->equal(baseMetaType);
+				return item.targetMetaType == baseMetaType;
 			}) == thisClassInfo.baseList.end()) {
 			thisClassInfo.baseList.push_back({ baseMetaType, &castObject<C, B> });
 		}
@@ -181,7 +183,7 @@ private:
 			baseClassInfo.derivedList.begin(),
 			baseClassInfo.derivedList.end(),
 			[classMetaType](const BaseDerived & item) {
-				return item.targetMetaType->equal(classMetaType);
+				return item.targetMetaType == classMetaType;
 			}) == baseClassInfo.derivedList.end()) {
 			baseClassInfo.derivedList.push_back({ classMetaType, &castObject<B, C> });
 		}
@@ -272,7 +274,8 @@ private:
 	}
 
 private:
-	std::map<const MetaType *, ClassInfo, MetaTypeLess> classInfoMap;
+	//std::map<const MetaType *, ClassInfo, MetaTypeLess> classInfoMap;		// using map somehow produces error in Release mode, where the returned ClassInfo is always the same, regardless of any given MetaType key.
+	std::unordered_map<const MetaType*, ClassInfo> classInfoMap;
 };
 
 } // namespace internal_
