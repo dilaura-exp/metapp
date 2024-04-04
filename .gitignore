@@ -8,3 +8,17 @@ build
 bin
 __pycache__
 *.pyc
+*.vcxproj
+*.filters
+cmake_install.cmake
+*.sln
+CMakeFiles/Export/
+Debug/
+Dist/
+metapp.dir/
+Release/
+metapp.vcxproj.user
+metappConfig.cmake
+metappConfigVersion.cmake
+CMakeFiles/generate.stamp
+CMakeFiles/generate.stamp.depend
