@@ -38,7 +38,8 @@ struct DeclareMetaTypeBase <std::pair<T1, T2> >
 			&metaIndexableGetValueType,
 			nullptr,
 			&metaIndexableGet,
-			&metaIndexableSet
+			&metaIndexableSet,
+			&metaIndexableErase
 		);
 		return &metaIndexable;
 	}
@@ -96,6 +97,10 @@ private:
 		if(callback(Variant::reference(var.get<PairType &>().first))) {
 			callback(Variant::reference(var.get<PairType &>().second));
 		}
+	}
+
+	static void metaIndexableErase(const Variant& var, const std::size_t index) {
+		raiseException<UnsupportedException>();
 	}
 
 };

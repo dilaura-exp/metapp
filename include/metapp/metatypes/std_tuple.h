@@ -39,7 +39,8 @@ struct DeclareMetaTypeBase <std::tuple<Types...> >
 			&metaIndexableGetValueType,
 			nullptr,
 			&metaIndexableGet,
-			&metaIndexableSet
+			&metaIndexableSet,
+			&metaIndexableErase
 		);
 		return &metaIndexable;
 	}
@@ -80,6 +81,10 @@ private:
 			using Sequence = typename internal_::MakeSizeSequence<sizeof...(Types)>::Type;
 			doSetAt(var, index, value, Sequence());
 		}
+	}
+
+	static void metaIndexableErase(const Variant& var, const std::size_t index) {
+		raiseException<UnsupportedException>();
 	}
 
 	template <std::size_t ...Indexes>

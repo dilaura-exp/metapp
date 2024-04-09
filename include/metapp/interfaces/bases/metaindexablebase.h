@@ -64,7 +64,8 @@ struct MetaIndexableBase
 			&metaIndexableGetValueType,
 			&metaIndexableResize,
 			&metaIndexableGet,
-			&metaIndexableSet
+			&metaIndexableSet,
+			&metaIndexableErase
 		);
 		return &metaIndexable;
 	}
@@ -106,6 +107,22 @@ private:
 		}
 		else {
 			internal_::assignValue(indexable.get<ContainerType &>()[index], value.cast<ValueType &>().template get<ValueType &>());
+		}
+	}
+
+	static void metaIndexableErase(const Variant& indexable, const std::size_t index)
+	{
+		if constexpr (std::is_same<ContainerType, std::vector<ValueType>>::value) {
+			requireMutable(indexable);
+
+			if (index >= metaIndexableGetSizeInfo(indexable).getSize()) {
+				raiseException<OutOfRangeException>();
+			}
+			auto& container = indexable.get<ContainerType&>();
+			container.erase(container.begin() + index);
+		}
+		else {
+			raiseException<UnsupportedException>();
 		}
 	}
 

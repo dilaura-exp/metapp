@@ -39,7 +39,8 @@ struct DeclareMetaTypeBase <std::list<T, Allocator> >
 			&metaIndexableGetValueType,
 			&metaIndexableResize,
 			&metaIndexableGet,
-			&metaIndexableSet
+			&metaIndexableSet,
+			&metaIndexableErase
 		);
 		return &metaIndexable;
 	}
@@ -87,6 +88,17 @@ private:
 			std::advance(it, index);
 			internal_::assignValue(*it, value.cast<ValueType &>().template get<ValueType &>());
 		}
+	}
+	
+	static void metaIndexableErase(const Variant & var, const std::size_t index)
+	{
+		requireMutable(var);
+
+		if(index >= metaIndexableGetSizeInfo(var).getSize()) {
+			raiseException<OutOfRangeException>();
+		}
+		auto & list = var.get<ContainerType &>();
+		list.erase(list.begin() + index);
 	}
 
 };

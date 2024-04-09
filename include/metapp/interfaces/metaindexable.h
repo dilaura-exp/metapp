@@ -67,14 +67,16 @@ public:
 		const MetaType * (*getValueType)(const Variant & indexable, const std::size_t index),
 		void (*resize)(const Variant & indexable, const std::size_t size),
 		Variant (*get)(const Variant & indexable, const std::size_t index),
-		void (*set)(const Variant & indexable, const std::size_t index, const Variant & value)
+		void (*set)(const Variant & indexable, const std::size_t index, const Variant & value),
+		void (*erase)(const Variant& indexable, const std::size_t index)
 	)
 		:
 			getSizeInfo(getSizeInfo),
 			getValueType(getValueType),
 			get(get),
 			set(set),
-			resize_(resize)
+			resize_(resize),
+			erase(erase)
 	{
 	}
 
@@ -87,6 +89,7 @@ public:
 	}
 	Variant (*get)(const Variant & indexable, const std::size_t index);
 	void (*set)(const Variant & indexable, const std::size_t index, const Variant & value);
+	void (*erase)(const Variant& indexable, const std::size_t index);
 
 private:
 	void (*resize_)(const Variant & indexable, const std::size_t size);
@@ -110,6 +113,10 @@ inline Variant indexableGet(const Variant & indexable, const std::size_t index)
 inline void indexableSet(const Variant & indexable, const std::size_t index, const Variant & value)
 {
 	getNonReferenceMetaType(indexable)->getMetaIndexable()->set(indexable, index, value);
+}
+
+inline void indexableErase(const Variant& indexable, const std::size_t index) {
+	getNonReferenceMetaType(indexable)->getMetaIndexable()->erase(indexable, index);
 }
 
 

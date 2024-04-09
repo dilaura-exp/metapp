@@ -45,7 +45,8 @@ struct DeclareMetaTypeArrayBase : MetaStreamableBase<T>
 			&metaIndexableGetValueType,
 			nullptr,
 			&metaIndexableGet,
-			&metaIndexableSet
+			&metaIndexableSet,
+			&metaIndexableErase
 		);
 		return &metaIndexable;
 	}
@@ -188,6 +189,11 @@ private:
 		else {
 			internal_::assignValue(var.get<T &>()[index], value.cast<ElementType>().template get<ElementType &>());
 		}
+	}
+
+	static void metaIndexableErase(const Variant& var, const std::size_t index)
+	{
+		raiseException<UnsupportedException>();
 	}
 
 };
