@@ -37,6 +37,18 @@ string(CONCAT "MSVC_RUNTIME_LIBRARY_STR"
 )
 set_target_properties(${PROJECT_NAME} PROPERTIES MSVC_RUNTIME_LIBRARY ${MSVC_RUNTIME_LIBRARY_STR})
 
+################################################################################
+# Compile and link options
+################################################################################
+
+if(MSVC)
+    target_compile_options(${PROJECT_NAME} PUBLIC
+        $<$<CONFIG:Debug>:
+            /Od;
+        >
+    )
+endif()
+
 # Installation
 # ------------
 include(GNUInstallDirs)

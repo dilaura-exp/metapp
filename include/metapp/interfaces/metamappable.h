@@ -33,13 +33,15 @@ public:
 		const MetaType * (*getValueType)(const Variant & mappable),
 		Variant (*get)(const Variant & mappable, const Variant & key),
 		void (*set)(const Variant & mappable, const Variant & key, const Variant & value),
-		void (*forEach)(const Variant & mappable, const Callback & callback)
+		void (*forEach)(const Variant & mappable, const Callback & callback),
+		void (*erase)(const Variant & mappable, const Variant & key)
 	)
 		:
 			getValueType(getValueType),
 			get(get),
 			set(set),
-			forEach(forEach)
+			forEach(forEach),
+			erase(erase)
 	{
 	}
 
@@ -47,6 +49,7 @@ public:
 	Variant (*get)(const Variant & mappable, const Variant & key);
 	void (*set)(const Variant & mappable, const Variant & key, const Variant & value);
 	void (*forEach)(const Variant & mappable, const Callback & callback);
+	void (*erase)(const Variant & mappable, const Variant & key);
 };
 
 inline const MetaType * mappableGetValueType(const Variant & mappable)
@@ -69,6 +72,10 @@ inline void mappableForEach(const Variant & mappable, const MetaMappable::Callba
 	getNonReferenceMetaType(mappable)->getMetaMappable()->forEach(mappable, callback);
 }
 
+inline void mappableErase(const Variant & mappable, const Variant & key)
+{
+	getNonReferenceMetaType(mappable)->getMetaMappable()->erase(mappable, key);
+}
 
 } // namespace metapp
 

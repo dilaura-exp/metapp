@@ -30,7 +30,8 @@ struct MetaMappableBase
 			&metaMapGetValueType,
 			&metaMapGet,
 			&metaMapSet,
-			&metaMapForEach
+			&metaMapForEach,
+			&metaMapErase
 		);
 		return &metaMap;
 	}
@@ -78,6 +79,14 @@ private:
 			if(! callback(Variant::reference(item.first), Variant::reference(item.second))) {
 				break;
 			}
+		}
+	}
+
+	static void metaMapErase(const Variant& mappable, const Variant& key) {
+		auto& container = mappable.get<ContainerType&>();
+		auto it = container.find(key.cast<const KeyType&>().template get<const KeyType&>());
+		if (it != container.end()) {
+			container.erase(it);
 		}
 	}
 
